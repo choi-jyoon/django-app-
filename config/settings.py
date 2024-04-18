@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-=+$!%4nwqrwp1zp!pc(27blga_8vjh61uuv+hahdup+6)w*fja
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # 배포 시에는 False로 ! 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
