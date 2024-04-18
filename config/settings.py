@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-=+$!%4nwqrwp1zp!pc(27blga_8vjh61uuv+hahdup+6)w*fja
 # 배포 시에는 False로 ! 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
