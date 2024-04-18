@@ -43,3 +43,24 @@ def food_delete(request, pk):
     object=Food.objects.get(pk=pk)
     object.delete()
     return redirect('seller:seller_index')
+
+@login_required
+def food_update(request, pk):
+    food=Food.objects.get(pk=pk)
+    if request.method == 'POST':
+        food.name = request.POST.get('name', '')
+        food.price = request.POST.get('price', '')
+        food.description = request.POST.get('description', '')
+        
+        # fs=FileSystemStorage()
+        # uploaded_file = request.POST.get('file', '')
+        # name = fs.save(uploaded_file.name, uploaded_file)
+        # url = fs.url(name)
+        
+        food.save()
+        return redirect('seller:seller_index')
+    elif request.method == 'GET':
+        context = {
+            'object': food
+        }
+        return render(request, 'seller/seller_update_food.html', context)

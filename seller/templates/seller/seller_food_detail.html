@@ -8,20 +8,48 @@
         </div>
         <div class="col-md-6 info-section">
             <h2>{{ object.name }}</h2>
-            <h3 class="text-muted">{{ object.price }}원</h3>
+            <h5 class="text-muted">가격 : {{ object.price }}원</h5>
             <p>{{ object.description }}</p>
+
+            <form action="{% url 'seller:food_update' pk=object.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row g-3 mb-3">       
+                    <div class="col-md-4">
+                        <label for="name" class="form-label">상품 이름:</label>
+                        <input type="text" name="name" class="form-control" id="name" value="{{ object.name }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="price" class="form-label">가격:</label>
+                        <input type="number" name="price" class="form-control" id="price" value="{{ object.price }}">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">소개:</label>
+                    <textarea name="description" rows="2" class="form-control">{{ object.description }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">사진을 올려주세요</label>
+                    <input type="file" name="file" class="form-control" id="file">
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="수정하기" class="btn btn-success">
+                </div>
+            </form>
 
             <form action="{% url 'seller:food_delete' pk=object.id %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="삭제하기" class="btn-custom">
+                <div class="text-right">
+                    <input type="submit" value="삭제하기" class="btn btn-danger">
+                </div>
             </form>
+
         </div>
     </div>
 </div>
 {##}
 <style>
     .product-image {
-        max-width: 100%;
+        max-width: 50%;
         height: auto; /* 이미지의 비율을 유지하면서 너비에 맞춤 */
     }
 </style>

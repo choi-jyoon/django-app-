@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1><span class="badge bg-pink">{{user}}</span></h1>
+
+{% comment %} <div class="card" style="width: 20rem;">
+    <img src="{{ cart.food.img_url }}" alt="{{ cart.food.name }}" class="product-image">
+    <div class="card-body">
+      <p class="card-text">
+        <div>상품 : {{cart.food.name}}</div>
+        <div>
+            <label for="quantity">수량:</label>
+            <div>
+                <button onclick="decreaseQuantity()">-</button>
+                <input type="number" id="quantity" name="quantity" value="{{ cart.amount }}" min="1">
+                <button onclick="increaseQuantity()">+</button>
+            </div>
+        </div>
+    </div>
+  </div> {% endcomment %}
+
+{% endblock %}

@@ -1,15 +1,16 @@
-<h1>order detail 페이지</h1>
+
 {% extends 'base.html' %}
 
 {% block content %}
 <style>
     .product-image {
-        max-width: 100%;
+        max-width: 50%;
         height: auto; /* 이미지의 비율을 유지하면서 너비에 맞춤 */
     }
 </style>
 <div>
-    <a href="#" class="btn btn-primary">
+    <a href="{% url 'order:cart' %}" class="btn btn-primary">
+        {% comment %} {{user.cart_set}} {% endcomment %}
     장바구니 <span class="badge bg-secondary"><span id="totalQuantity"></span></span>
 </a>
 </div>

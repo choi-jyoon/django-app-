@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Cart
 from seller.models import Food
 from django.http.response import JsonResponse
 from django.db.models.aggregates import Sum
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+# def order_index(request):
+#     return render(request, 'order/order')
 def order_detail(request, pk):
     context = {
         'object': Food.objects.get(pk=pk)
@@ -23,7 +25,9 @@ def modify_cart(request):
     cart, created = Cart.objects.get_or_create(user = user, food = food)
     
     #수량 업데이트
-    cart.amount += int(request.POST['amountChange'])
+    change_amount = int(request.POST['amountChange'])
+    cart.amount += change_amount
+    
     if cart.amount >0:
         cart.save()
         
@@ -36,6 +40,32 @@ def modify_cart(request):
         'newQuantity': cart.amount,
         'totalQuantity': totalQuantity,
         'message':'성공',
-        'success': True
+        'success': True,
     }
     return JsonResponse(context)
+
+@login_required
+def cart(request):
+    carts = Cart.objects.filter(user = request.user)
+    totalQuantity = request.user.cart_set.aggregate(totalCount=Sum('amount'))['totalCount']
+    total_price = carts.aggregate(total_price=Sum('food__price') * Sum('amount'))['total_price']
+    
+    context = {
+        'object_list': carts,
+        'total': totalQuantity,
+        # 'price': price,
+        'total_price': total_price,
+    }
+    return render(request, 'order/cart_detail.html', context)
+
+@login_required
+def cart_delete(request, pk):
+    cart = Cart.objects.get(pk=pk)
+    cart.delete()
+    return redirect('order:cart')
+
+@login_required
+def cart_update(request, pk):
+    cart = Cart.objects.get(pk=pk)
+    cart.delete()
+    return redirect('order:cart')

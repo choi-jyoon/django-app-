@@ -25,6 +25,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('seller/', include('seller.urls')),
     path('order/', include('order.urls')),
+    path('mypage/', include('mypage.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', views.UserCreateView.as_view(), name='register'),
     path('accounts/register/done/', views.UserCreateDoneTV.as_view(), name='register_done'),    

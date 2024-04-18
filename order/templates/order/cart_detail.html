@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h3><span class="badge bg-pink">총 수량 : {{total}}</span></h3>
+{% for cart in object_list %}
+<div class="card" style="width: 20rem;">
+    <img src="{{ cart.food.img_url }}" alt="{{ cart.food.name }}" class="product-image">
+    <div class="card-body">
+        <p class="card-text">
+            <div>상품 : {{cart.food.name}}</div>
+            <div>
+                <label for="quantity">수량:</label>
+                <input type="number" id="quantity" name="quantity" value="{{ cart.amount }}" min="1">
+            </div>
+        </p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <form id="update-form-{{ cart.id }}" action="{% url 'order:cart_update' pk=cart.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" id="update-quantity-{{ cart.id }}" value="{{ cart.amount }}">
+            <button type="button" onclick="updateQuantity('{{ cart.id }}')" class="btn btn-success">변경하기</button>
+        </form>
+        <form action="{% url 'order:cart_delete' pk=cart.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="삭제하기" class="btn btn-danger">
+        </form>
+    </div>
+</div>
+
+{% endfor %}
+<h3><span class="badge bg-pink">가격 : {{total_price}}</span></h3>
+
+<script>
+    function updateQuantity(cartId) {
+        var quantityInput = document.getElementById('quantity').value;
+        document.getElementById('update-quantity-' + cartId).value = quantityInput;
+        document.getElementById('update-form-' + cartId).submit();
+    }
+</script>
+{% endblock %}
